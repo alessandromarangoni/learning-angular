@@ -1,0 +1,10 @@
+<div *ngIf="user">
+
+    <button mat-mini-fab color="warn" (click)="delete(user)">
+        <mat-icon>delete</mat-icon>
+    </button>
+
+    <h4>{{ user.nome }}</h4>
+    <small>messaggio: </small>
+    <p>{{ user.cognome }}</p>
+</div>
