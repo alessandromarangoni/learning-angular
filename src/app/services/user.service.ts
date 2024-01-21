@@ -1,53 +1,71 @@
-// Importa le dipendenze necessarie. Injectable è un decoratore che permette di definire questa classe come un servizio in Angular.
-// Observable, of e throwError sono importati da RxJS, che è una libreria per la programmazione reattiva in JavaScript.
+// Importazioni delle dipendenze essenziali.
+// Injectable permette di definire questa classe come servizio iniettabile in Angular.
+// Observable, of e throwError sono importati da RxJS per la gestione di flussi di dati asincroni.
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 
-// Importa un mock-up dei dati utente. Questo è probabilmente un array statico usato per simulare dati reali.
+// Importazione di un set di dati mock (finti) degli utenti.
+// Questi dati sono usati per simulare un database o una chiamata API.
 import { MOCK_USERS } from '../mock/mock-users';
-// Importa la definizione del modello User, che definisce la struttura di un oggetto User.
+
+// Importazione del modello User, che definisce la struttura dei dati utente.
 import { User } from '../model/user';
 
-// Il decoratore Injectable con l'opzione 'providedIn: root' indica che questo servizio può essere iniettato in qualsiasi parte dell'applicazione.
+// Costante che definisce la chiave sotto cui gli utenti sono salvati in localStorage.
+export const DEMO_USER_STORE = 'demo_user_store';
+
+// Decoratore Injectable con opzione 'providedIn: root'.
+// Questo rende il servizio disponibile globalmente nell'app.
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  // Array per memorizzare i dati degli utenti.
+  users: User[] = [];
 
-  // Dichiarazione di un array di utenti.
-  users: User[] = []
-
-  // Il costruttore viene eseguito quando viene creata un'istanza di UserService.
+  // Costruttore eseguito alla creazione dell'istanza di UserService.
   constructor() {
-    // Inizializza l'array di utenti con i dati mock.
-    this.users = MOCK_USERS;
+    // Tentativo di recuperare gli utenti da localStorage.
+    const stored: string | null = localStorage.getItem(DEMO_USER_STORE);
+    // Se esistono dati salvati, convertili da JSON, altrimenti usa e salva i dati mock.
+    this.users = stored ? JSON.parse(stored) : this.save(MOCK_USERS);
   }
 
-  // Metodo per ottenere tutti gli utenti. Restituisce un Observable di un array di User.
-  getAll() : Observable<User[]>{
-    // 'of' è una funzione di RxJS che converte i dati in un Observable. Qui, converte l'array di utenti in un Observable.
+  // Metodo per ottenere tutti gli utenti.
+  // Restituisce un Observable che emette l'array degli utenti.
+  getAll(): Observable<User[]> {
     return of(this.users);
   }
 
-  // Metodo per ottenere un utente specifico tramite il suo ID. Restituisce un Observable di User.
-  get(id: number): Observable<User>{
-    // Cerca l'utente nell'array usando la funzione find.
-    const user = MOCK_USERS.find(u => u.id == id)
-    // Se l'utente è trovato, lo restituisce come Observable. Altrimenti, genera un errore.
+  // Metodo per ottenere un utente specifico in base al suo ID.
+  // Restituisce un Observable dell'utente trovato o genera un errore se non trovato.
+  get(id: number): Observable<User> {
+    const user = MOCK_USERS.find(u => u.id == id);
     return user ? of(user) : throwError(`Utente con id ${id} non trovato!`);
   }
 
-  add(user : User){
-    this.users.push(user)
-    return of(user)
+  // Metodo per aggiungere un nuovo utente.
+  // Aggiunge l'utente all'array e restituisce un Observable dell'utente aggiunto.
+  add(user: User): Observable<User> {
+    this.users.push(user);
+    return of(user);
   }
 
-  remove(id: number){
-    const userIndex = this.users.findIndex(u => u.id === id)
+  // Metodo per rimuovere un utente in base al suo ID.
+  // Rimuove l'utente dall'array se trovato e restituisce un Observable di undefined, altrimenti genera un errore.
+  remove(id: number): Observable<undefined> {
+    const userIndex = this.users.findIndex(u => u.id === id);
     if (userIndex !== -1) {
       this.users.splice(userIndex, 1);
-      return of(undefined)
+      return of(undefined);
     }
     return throwError(`Errore: Utente con id ${id} non trovato!`);
+  }
+
+  // Metodo privato per salvare gli utenti in localStorage.
+  // Salva l'array di utenti come stringa JSON e lo restituisce.
+  private save(users: User[]): User[] {
+    localStorage.setItem(DEMO_USER_STORE, JSON.stringify(users));
+    return users;
   }
 }

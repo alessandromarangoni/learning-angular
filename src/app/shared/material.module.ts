@@ -5,6 +5,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 
 // Il decoratore NgModule indica che questa classe è un modulo Angular.
 @NgModule({
@@ -14,7 +18,10 @@ import { MatIconModule } from '@angular/material/icon';
     MatToolbarModule,  // MatToolbarModule è un modulo di Angular Material che fornisce il componente della toolbar.
     MatListModule  ,    // MatListModule è un altro modulo di Angular Material che fornisce componenti per creare liste.
     MatButtonModule,    // MatButtonModule è un altro modulo di material che fornisce componenti per creare bottoni
-    MatIconModule       // MatButtonModule è un altro modulo di material che fornisce componenti per creare icone
+    MatIconModule,       // MatButtonModule è un altro modulo di material che fornisce componenti per creare icone
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   // La sezione 'exports' rende questi moduli disponibili ai moduli che importano MaterialModule.
   exports: [
@@ -22,7 +29,10 @@ import { MatIconModule } from '@angular/material/icon';
     MatToolbarModule,  // Esportare MatToolbarModule permette l'utilizzo della toolbar di Angular Material.
     MatListModule,     // Esportare MatListModule consente l'uso dei componenti di lista di Angular Material.
     MatButtonModule,   // Esportare MatListModule consente l'uso dei componenti bottoni
-    MatIconModule      // Esportare MatListModule consente l'uso dei componenti icone
+    MatIconModule,      // Esportare MatListModule consente l'uso dei componenti icone
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule
   ]
 })
 // La definizione della classe del modulo, in questo caso MaterialModule.
