@@ -1,1 +1,15 @@
-<p>create-user-dialog works!</p>
+<h2 mat-dialog-title>Crea un nuovo messaggio</h2>
+<mat-dialog-content>
+    <mat-form-field>
+        <mat-label>Nome</mat-label>
+        <input matInput [(ngModel)]='user.nome' placeholder="nome">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Cognome</mat-label>
+        <input matInput [(ngModel)]="user.cognome" placeholder="cognome">
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close cdkFocusInitial>Annulla</button>
+    <button mat-button (click)="close()" [disabled]="!(user.nome && user.cognome)">Salva</button>
+</mat-dialog-actions>

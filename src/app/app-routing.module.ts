@@ -6,16 +6,23 @@ import { RouterModule, Routes } from '@angular/router';
 import { NavigationComponent } from './navigation/navigation.component';
 import { UsersComponent } from './pages/users/users.component';
 import { UserDetailsComponent } from './pages/user-details/user-details.component';
+import { LoginComponent } from './pages/login/login.component';
+import { AuthenticationGuard } from './services/guards/authentication.guard';
 
 // Definizione di un array di rotte. Ogni oggetto route definisce un percorso URL e il componente che deve essere visualizzato.
 const routes: Routes = [
+  {
+    path: 'login',
+    component: LoginComponent
+  },
   {
     // Questa è la rotta base ('').
     path: '',
     // Il componente che verrà caricato quando l'URL corrisponde al percorso base.
     component: NavigationComponent,
+    canActivate: [AuthenticationGuard],
 
-    // 'children' definisce un array di rotte figlie.
+    // 'children' definisce un array di rotte figlie.d
     children: [
       {
         // Quando l'URL è semplicemente '/', carica il componente UsersComponent.

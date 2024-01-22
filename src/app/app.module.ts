@@ -11,6 +11,7 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { UsersComponent } from './pages/users/users.component';
 import { UserDetailsComponent } from './pages/user-details/user-details.component';
 import { CreateUserDialogComponent } from './components/create-user-dialog/create-user-dialog.component';
+import { LoginComponent } from './pages/login/login.component';
 
 // Decoratore NgModule che definisce la classe come un modulo Angular.
 @NgModule({
@@ -20,7 +21,8 @@ import { CreateUserDialogComponent } from './components/create-user-dialog/creat
     NavigationComponent,
     UsersComponent,
     UserDetailsComponent,
-    CreateUserDialogComponent
+    CreateUserDialogComponent,
+    LoginComponent
   ],
   // 'imports' elenca altri moduli i cui componenti esportati sono necessari in questo modulo.
   imports: [

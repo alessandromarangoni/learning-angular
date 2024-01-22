@@ -11,7 +11,7 @@ import { User } from '../../model/user';
 })
 export class CreateUserDialogComponent implements OnInit {
   // Proprietà 'user' di tipo 'User', inizializzata con un valore non definito ma assegnata nel costruttore.
-  user!: User;
+  user: User;
 
   // Costruttore del componente.
   constructor(

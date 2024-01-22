@@ -1,0 +1,15 @@
+<div class="page-wrapper">
+    <h2>Login</h2>
+    <form #loginForm="ngForm" (ngSubmit)="login()">
+        <mat-form-field>
+            <mat-label>Username</mat-label>
+            <input matInput [(ngModel)]="username" placeholder="Username" name="username" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Paasword</mat-label>
+            <input matInput [(ngModel)]="password" placeholder="password" name="password" required>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" aria-label="Login"
+            [disabled]="!loginForm.form.valid">Login</button>
+    </form>
+</div>

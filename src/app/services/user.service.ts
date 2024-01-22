@@ -2,7 +2,7 @@
 // Injectable permette di definire questa classe come servizio iniettabile in Angular.
 // Observable, of e throwError sono importati da RxJS per la gestione di flussi di dati asincroni.
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, finalize, of, throwError } from 'rxjs';
 
 // Importazione di un set di dati mock (finti) degli utenti.
 // Questi dati sono usati per simulare un database o una chiamata API.
@@ -40,16 +40,24 @@ export class UserService {
   // Metodo per ottenere un utente specifico in base al suo ID.
   // Restituisce un Observable dell'utente trovato o genera un errore se non trovato.
   get(id: number): Observable<User> {
-    const user = MOCK_USERS.find(u => u.id == id);
+    const user = this.users.find(u => u.id == id);
     return user ? of(user) : throwError(`Utente con id ${id} non trovato!`);
   }
 
-  // Metodo per aggiungere un nuovo utente.
-  // Aggiunge l'utente all'array e restituisce un Observable dell'utente aggiunto.
-  add(user: User): Observable<User> {
-    this.users.push(user);
-    return of(user);
-  }
+// Metodo per aggiungere un nuovo utente.
+// Aggiunge l'utente all'array e restituisce un Observable dell'utente aggiunto.
+add(user: User): Observable<User> {
+  // Aggiunge l'utente all'array di utenti.
+  this.users.push(user);
+
+  // Crea un Observable che emette l'utente appena aggiunto.
+  return of(user)
+    .pipe(
+      // Utilizza l'operatore 'finalize' per eseguire una azione quando l'Observable completa la sua emissione.
+      // 'finalize' viene eseguito sia che l'Observable completi normalmente, sia che venga interrotto da un errore.
+      finalize(() => this.save(this.users))
+    );
+}
 
   // Metodo per rimuovere un utente in base al suo ID.
   // Rimuove l'utente dall'array se trovato e restituisce un Observable di undefined, altrimenti genera un errore.
@@ -57,7 +65,12 @@ export class UserService {
     const userIndex = this.users.findIndex(u => u.id === id);
     if (userIndex !== -1) {
       this.users.splice(userIndex, 1);
-      return of(undefined);
+      return of(undefined)
+      .pipe(
+        // Utilizza l'operatore 'finalize' per eseguire una azione quando l'Observable completa la sua emissione.
+        // 'finalize' viene eseguito sia che l'Observable completi normalmente, sia che venga interrotto da un errore.
+        finalize(() => this.save(this.users))
+      );
     }
     return throwError(`Errore: Utente con id ${id} non trovato!`);
   }

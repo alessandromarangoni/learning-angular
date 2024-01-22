@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { User } from '../../model/user';
 import { UserService } from '../../services/user.service';
+import { TitleService } from '../../services/title.service';
 
 // Decoratore Component che configura il componente.
 @Component({
@@ -20,6 +21,7 @@ export class UserDetailsComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly userService: UserService,
     private readonly router: Router,
+    private readonly titleService: TitleService
   ) { }
 
   // Metodo ngOnInit viene chiamato quando il componente viene inizializzato.
@@ -34,7 +36,10 @@ export class UserDetailsComponent implements OnInit {
           throw err;
         }),
         // map assegna l'utente ottenuto alla proprietà 'user'.
-        map((user: User) => this.user = user)
+        map((user: User) =>{
+          this.user = user;
+          this.titleService.title.next(`Utente ${user.id}`);
+        })
       )
       .subscribe();
   }

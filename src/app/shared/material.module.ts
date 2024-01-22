@@ -8,6 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms'; // Importa FormsModule
+import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 
 // Il decoratore NgModule indica che questa classe è un modulo Angular.
@@ -21,7 +23,9 @@ import { MatInputModule } from '@angular/material/input';
     MatIconModule,       // MatButtonModule è un altro modulo di material che fornisce componenti per creare icone
     MatDialogModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    FormsModule,
+    MatSnackBarModule
   ],
   // La sezione 'exports' rende questi moduli disponibili ai moduli che importano MaterialModule.
   exports: [
@@ -32,7 +36,12 @@ import { MatInputModule } from '@angular/material/input';
     MatIconModule,      // Esportare MatListModule consente l'uso dei componenti icone
     MatDialogModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    FormsModule,
+    MatSnackBarModule
+  ],
+  providers: [
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } }
   ]
 })
 // La definizione della classe del modulo, in questo caso MaterialModule.
